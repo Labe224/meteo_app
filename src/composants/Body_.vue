@@ -40,13 +40,13 @@
   </div>
 </div>
 
-<div class=" bg-white rounded-xl shadow-md overflow-hidden sm:w-2/3" v-if="meteoData.ville">
+<div class=" bg-gray-200 rounded-xl shadow-md overflow-hidden sm:w-2/3" v-if="meteoData.ville">
   <div class="p-8">
     <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Info Ville</h1>
     <div class="space-y-4">
       <p class="text-lg text-gray-700"><span class="font-semibold">Nom pays:</span> {{ meteoData.pays }}</p>
-      <div class="flex justify-center">
-        <img :src="'https://flagsapi.com/'+meteoData.code+'/flat/64.png'" class="w-16 h-16">
+      <div class="flex justify-center ">
+        <img :src="'https://flagsapi.com/'+meteoData.code+'/flat/64.png'" class="w-16 h-16 ">
       </div>
       <p class="text-lg text-gray-700"><span class="font-semibold">Code pays:</span> {{ meteoData.code }}</p>
       <p class="text-lg text-gray-700"><span class="font-semibold"> Capitale:</span> {{ meteoData.capital }}</p>
