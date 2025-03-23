@@ -3,7 +3,7 @@
     <h1 class="text-center font-bold pt-1.5 text-2xl">Météo du jour </h1>
     <hr class="w-full my-2">
     <div class="flex-col flex w-full sm:flex-row" v-if="meteoData.ville"> 
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm mx-4  h-1/1">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden max-md:w-full w-1/3 md:mx-2 h-1/1">
         <div class=" bg-blue-600 text-white text-center p-4">
             <h2 class="text-2xl font-bold">Météo de {{ meteoData.ville }}</h2>
             <p class="text-lg">{{ formaterDateDuJour() }}</p>

@@ -1,6 +1,7 @@
 <template>
   <Header @nom_ville=" main_current" @menu="menuaf"></Header>
-  <Body :meteo-data="meteo_data" ></Body> 
+  <Body :meteo-data="meteo_data" v-if="af"></Body> 
+  <Mmonde v-if="!af" :donnees="donnees_grand_ville" @affihe="afficher"></Mmonde>
   
   
 </template>
@@ -12,10 +13,10 @@ import Mmonde from './composants/Mmonde.vue'
 import { ref } from 'vue'
 
 const meteo_data=ref({})
-let af=1
+let af= ref(1)
 
 function menuaf(params) {
-  af=params
+  af.value=params
   
 }
 
@@ -127,18 +128,24 @@ appreci.push(appre)
 
     
 }
-
-async function main_current(params) { // fonction appelé à chaque recherche de ville 
+async function main_current(params,v) { // fonction appelé à chaque recherche de ville 
+    menuaf(1)
+    
     let data = await get_geolocation(params)
     let donnees=await get_meteo(data)
+
     
     donnees.code=data.coun_code
     console.log(donnees.pays)
     let donnee2=await getCountryInfo(donnees.code)
 
     donnees.ville=params
-    remplis_donnes(donnees, donnee2,data)
-   
+    if(v==1)
+      remplis_donnes(donnees,donnee2,data)
+    else
+     meteo_data.value=remplis_donnes(donnees, donnee2,data)
+    
+   return donnees
 }
 function remplis_donnes(donnees, donnee2,data) {
    
@@ -153,7 +160,7 @@ function remplis_donnes(donnees, donnee2,data) {
     donnees.jour_nuit=donnee2.jour_nuit
     donnees.jours_nuits=donnees.jours_nuits
     donnees.lang=donnee2.lang
-    meteo_data.value=donnees
+    return donnees
 }
 async function depart(dat) { // fonction appelé à chaque recherche de ville 
     let params= await get_localisation_reverse(dat)
@@ -162,7 +169,9 @@ async function depart(dat) { // fonction appelé à chaque recherche de ville
     donnees.code=data.coun_code
     let donnee2=await getCountryInfo(donnees.code)
     donnees.ville=params
-    remplis_donnes(donnees, donnee2,data)
+    meteo_data.value=remplis_donnes(donnees, donnee2,data,0)
+
+  
 }
 
 
@@ -219,4 +228,37 @@ getLocation()
 .then( (data)  => {
   depart(data)
 })
+
+
+// fonction qui permet de charger la météo des grandes villes de du monde 
+const donnees_grand_ville=ref([])
+const liste_ville = [
+    "Tokyo",
+    "Delhi",
+    "Shanghai",
+    "São Paulo",
+    "Mexico City",
+    "Cairo",
+    "Dhaka",
+    "Mumbai",
+    "Beijing",
+    "Osaka",
+];
+async function ville_monde(){
+   for ( let i=0; i<liste_ville.length; i++){
+    console.log(liste_ville[i])
+    let donnees= await main_current(liste_ville[i],1)
+    donnees.nom=liste_ville[i]
+    donnees_grand_ville.value.push(donnees)
+   }
+ console.log(donnees_grand_ville.value)
+}
+ville_monde()
+
+// fonction qui permet de charger les données 
+async function afficher(params){
+  console.log(params)
+    await main_current(params,0)
+    menuaf(1)
+}
 </script>
