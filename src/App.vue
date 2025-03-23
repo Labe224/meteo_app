@@ -1,7 +1,7 @@
 <template>
   <Header @nom_ville=" main_current" @menu="menuaf"></Header>
   <Body :meteo-data="meteo_data" ></Body> 
-  <Mmonde  ></Mmonde>
+  
   
 </template>
 <script setup>
