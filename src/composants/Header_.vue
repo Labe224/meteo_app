@@ -39,7 +39,6 @@ const ville= ref('')
       alert("vous n'avez pas saisi de ville")
     }
      emits("nom_ville",ville.value)
-     ville.value=''
  }
 
 function envoyer(params,pars2) {
